@@ -18,21 +18,21 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="generator" content="Hugo 0.32.4 with theme Tranquilpeak 0.4.3-BETA">
-    <title>__sync_with_ve9u</title>
+    <title>Archives</title>
     <meta name="author" content="Venu Gangireddy">
     <meta name="keywords" content="">
 
     <link rel="icon" href="https://res.cloudinary.com/dl4ccqgpz/image/upload/v1516382429/hackers_emblem.jpg">
     
-      <link rel="alternate" type="application/rss+xml" title="RSS" href="https://ve9u.me/index.xml">
+      <link rel="alternate" type="application/rss+xml" title="RSS" href="https://ve9u.me/archives/index.xml">
     
 
     
     <meta name="description" content="Hugo tranquilpeak theme demo">
     <meta property="og:description" content="Hugo tranquilpeak theme demo">
     <meta property="og:type" content="blog">
-    <meta property="og:title" content="__sync_with_ve9u">
-    <meta property="og:url" content="/">
+    <meta property="og:title" content="Archives">
+    <meta property="og:url" content="/archives/">
     <meta property="og:site_name" content="__sync_with_ve9u">
     <meta name="twitter:card" content="summary">
     <meta name="twitter:title" content="__sync_with_ve9u">
@@ -189,70 +189,34 @@ ga('send', 'pageview');
   </div>
 </nav>
 
-      
-
       <div id="main" data-behavior="2"
         class="
                hasCoverMetaIn
                ">
-        <section class="postShorten-group main-content-wrap">
-          
-          
-            
-
+        <div id="archives" class="main-content-wrap">
+          <form id="filter-form" action="#">
+            <input name="date" type="text" class="form-control input--xlarge" placeholder="Search date (YYYY/MM/DD)" autofocus="autofocus">
+          </form>
+          <h5 class="archive-result text-color-base text-xlarge" data-message-zero="no post found" data-message-one="1 post found" data-message-other="{n} posts found"></h5>
+<section class="boxes">
   
-
-<article class="postShorten postShorten--thumbnailimg-bottom" itemscope itemType="http://schema.org/BlogPosting">
-  <div class="postShorten-wrap">
     
-    <div class="postShorten-header">
-      <h1 class="postShorten-title" itemprop="headline">
-        <a class="link-unstyled" href="https://ve9u.me/2018/01/smart-pointer-explained-part-1/">
-          Smart Pointer Explained: Part 1
-        </a>
-      </h1>
+    <div class="archive archive-year box" data-date="2018">
+      <h4 class="archive-title" style="text-decoration: none;">2018</h4>
       
-  <div class="postShorten-meta post-meta">
-    
-      <time itemprop="datePublished" datetime="2018-01-13T18:34:36&#43;05:30">
-        
-  January 13, 2018
-
-      </time>
-    
-    
-  
-  
-    <span>in</span>
-    
-      <a class="category-link" href="https://ve9u.me/categories/c&#43;&#43;">c&#43;&#43;</a>
-    
-  
-
-  </div>
-
-    </div>
-    <div class="postShorten-excerpt" itemprop="articleBody">
-      Smart pointer is simple wrapper around regular pointer and allows better memory management compares to traditional pointers. Memory management is not simple, and not harder either. Human errors are possible when dealing with huge code base which has lot of exception handlers that will deviate regular code execution. It is difficult to track the ownership and existence of the pointer in such situations. Smart Pointer will ensure that memory released automatically when it is not necessary.
-      <p>
-        <a href="https://ve9u.me/2018/01/smart-pointer-explained-part-1/" class="postShorten-excerpt_link link">Continue reading</a>
-        
-      </p>
-    </div>
-  </div>
-  
-</article>
-
+        <ul class="archive-posts archive-month" data-date="201801">
+          <h5 class="archive-title" style="text-decoration: none;">January</h5>
           
+            <li class="archive-post archive-day" data-date="20180113">
+              <a class="archive-post-title" href="https://ve9u.me/2018/01/smart-pointer-explained-part-1/">Smart Pointer Explained: Part 1</a>
+            </li>
           
-
-        </section>
-        <footer id="footer" class="main-content-wrap">
-  <span class="copyrights">
-    &copy; 2018 <a href="https://github.com/ve9u">Venu Gangireddy</a>. All Rights Reserved
-  </span>
-</footer>
-
+        </ul>
+      
+    </div>
+  
+</section>
+        </div>
       </div>
     </div>
     
@@ -370,3 +334,4 @@ $(document).ready(function() {
     
   </body>
 </html>
+

@@ -1,0 +1,584 @@
+
+
+  
+    
+  
+
+
+  
+
+
+
+
+  
+
+
+  
+
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="generator" content="Hugo 0.32.4 with theme Tranquilpeak 0.4.3-BETA">
+    <title>Smart Pointer Explained: Part 1</title>
+    <meta name="author" content="Venu Gangireddy">
+    <meta name="keywords" content="c&#43;&#43;, smart pointers, advanced c&#43;&#43; concepts, memory management">
+
+    <link rel="icon" href="https://res.cloudinary.com/dl4ccqgpz/image/upload/v1516382429/hackers_emblem.jpg">
+    
+
+    
+    <meta name="description" content="Smart pointer is simple wrapper around regular pointer and allows better memory management compares to traditional pointers. Memory management is not simple, and not harder either. Human errors are possible when dealing with huge code base which has lot of exception handlers that will deviate regular code execution. It is difficult to track the ownership and existence of the pointer in such situations. Smart Pointer will ensure that memory released automatically when it is not necessary.">
+    <meta property="og:description" content="Smart pointer is simple wrapper around regular pointer and allows better memory management compares to traditional pointers. Memory management is not simple, and not harder either. Human errors are possible when dealing with huge code base which has lot of exception handlers that will deviate regular code execution. It is difficult to track the ownership and existence of the pointer in such situations. Smart Pointer will ensure that memory released automatically when it is not necessary.">
+    <meta property="og:type" content="blog">
+    <meta property="og:title" content="Smart Pointer Explained: Part 1">
+    <meta property="og:url" content="/2018/01/smart-pointer-explained-part-1/">
+    <meta property="og:site_name" content="__sync_with_ve9u">
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="__sync_with_ve9u">
+    <meta name="twitter:description" content="Smart pointer is simple wrapper around regular pointer and allows better memory management compares to traditional pointers. Memory management is not simple, and not harder either. Human errors are possible when dealing with huge code base which has lot of exception handlers that will deviate regular code execution. It is difficult to track the ownership and existence of the pointer in such situations. Smart Pointer will ensure that memory released automatically when it is not necessary.">
+    
+    
+
+    
+    
+
+    
+      <meta property="og:image" content="//www.gravatar.com/avatar/aee151a511379d3584dfba0bdd02cd09?s=640">
+    
+
+    
+    
+    
+
+    
+
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.4/jquery.fancybox.min.css" integrity="sha256-vuXZ9LGmmwtjqFX1F+EKin1ThZMub58gKULUyf0qECk=" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.4/helpers/jquery.fancybox-thumbs.min.css" integrity="sha256-SEa4XYAHihTcEP1f5gARTB2K26Uk8PsndQYHQC1f4jU=" crossorigin="anonymous" />
+    
+    
+    <link rel="stylesheet" href="https://ve9u.me/css/style-jsjn0006wyhpyzivf6yceb31gvpjatbcs3qzjvlumobfnugccvobqwxnnaj8.min.css" />
+    
+    
+
+    
+      
+<script>
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-112378997-1', 'auto');
+ga('send', 'pageview');
+</script>
+
+    
+    
+  </head>
+
+  <body>
+    <div id="blog">
+      <header id="header" data-behavior="5">
+  <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
+  <div class="header-title">
+    <a class="header-title-link" href="https://ve9u.me/">__sync_with_ve9u</a>
+  </div>
+  
+    
+      <a class="header-right-picture "
+         href="https://ve9u.me/#about">
+    
+    
+    
+      
+        <img class="header-picture" src="//www.gravatar.com/avatar/aee151a511379d3584dfba0bdd02cd09?s=90" alt="Author&#39;s picture" />
+      
+    
+    </a>
+  
+</header>
+
+      <nav id="sidebar" data-behavior="5">
+  <div class="sidebar-container">
+    
+      <div class="sidebar-profile">
+        <a href="https://ve9u.me/#about">
+          <img class="sidebar-profile-picture" src="//www.gravatar.com/avatar/aee151a511379d3584dfba0bdd02cd09?s=110" alt="Author&#39;s picture" />
+        </a>
+        <h4 class="sidebar-profile-name">Venu Gangireddy</h4>
+        
+          <h5 class="sidebar-profile-bio">Database Developer, Functional Programmer, System Enthusiast</h5>
+        
+      </div>
+    
+    <ul class="sidebar-buttons">
+      
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://ve9u.me/">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-home"></i>
+      
+      <span class="sidebar-button-desc">Home</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://ve9u.me/categories">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-bookmark"></i>
+      
+      <span class="sidebar-button-desc">Categories</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://ve9u.me/tags">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-tags"></i>
+      
+      <span class="sidebar-button-desc">Tags</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://ve9u.me/archives">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-archive"></i>
+      
+      <span class="sidebar-button-desc">Archives</span>
+    </a>
+  </li>
+
+
+    </ul>
+    <ul class="sidebar-buttons">
+      
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://github.com/ve9u" target="_blank" rel="noopener">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-github"></i>
+      
+      <span class="sidebar-button-desc">GitHub</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://ve9u.me/#about">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-question"></i>
+      
+      <span class="sidebar-button-desc">About</span>
+    </a>
+  </li>
+
+
+    </ul>
+    <ul class="sidebar-buttons">
+      
+
+    </ul>
+  </div>
+</nav>
+
+      
+
+      <div id="main" data-behavior="5"
+        class="
+               hasCoverMetaIn
+               ">
+        <article class="post" itemscope itemType="http://schema.org/BlogPosting">
+          
+          
+            <div class="post-header main-content-wrap text-left">
+  
+    <h1 class="post-title" itemprop="headline">
+      Smart Pointer Explained: Part 1
+    </h1>
+  
+  
+  <div class="postShorten-meta post-meta">
+    
+      <time itemprop="datePublished" datetime="2018-01-13T18:34:36&#43;05:30">
+        
+  January 13, 2018
+
+      </time>
+    
+    
+  
+  
+    <span>in</span>
+    
+      <a class="category-link" href="https://ve9u.me/categories/c&#43;&#43;">c&#43;&#43;</a>
+    
+  
+
+  </div>
+
+</div>
+          
+          <div class="post-content markdown" itemprop="articleBody">
+            <div class="main-content-wrap">
+              <p>Smart pointer is simple wrapper around regular pointer and allows better memory management compares to traditional pointers. Memory management is not simple, and not harder either. Human errors are possible when dealing with huge code base which has lot of exception handlers that will deviate regular code execution. It is difficult to track the ownership and existence of the pointer in such situations. Smart Pointer will ensure that memory released automatically when it is not necessary. It will help to reduce possible risk of memory leaks.</p>
+
+<p>This part of the post explains how Smart Pointers can de-allocate heap memory automatically by recreating simple wrapper around regular pointer. Next part will explains about c++ implementation of smart pointers and how it should be used.</p>
+
+<p>Let me revisit the scope in c++ and how object will be de-allocate based on its allocation. Consider Foo class which will inform us about its allocation and de-allocation.
+<hr />
+<script src="//gist.github.com/ve9u/9b33380c2de3b11c517985e0083ab1b8.js?file=foo.cpp"></script></p>
+
+<p>Objects that are declared will be allocated in the stack memory attached to the process, stack memory will be reclaimed automatically when execution reach out of object scope and it is no longer accessible. Object pointers that are created using <code>new</code> keyword will be allocated in the heap memory attached to the process, this memory can release anytime using <code>delete</code> keyword irrespective of scope of the object pointer.
+<hr />
+<script src="//gist.github.com/ve9u/9b33380c2de3b11c517985e0083ab1b8.js?file=main-basics.cpp"></script>
+<script src="//gist.github.com/ve9u/9b33380c2de3b11c517985e0083ab1b8.js?file=output-basics"></script></p>
+
+<p>It is recommended to always write <code>delete</code> statement when memory is allocated using <code>new</code> keyword, and fill the logic in between. If there are any possible exception in the logic, then there will be a possibility of skipping <code>delete</code> statement. Smart Pointers will help in this situation.
+<hr />
+<script src="//gist.github.com/ve9u/9b33380c2de3b11c517985e0083ab1b8.js?file=main-exception.cpp"></script>
+<script src="//gist.github.com/ve9u/9b33380c2de3b11c517985e0083ab1b8.js?file=output-exception"></script></p>
+
+<p>Smart Pointer can define as a class that contains the pointer to the object as a class member. This pointer memory will be assigned in the class constructor and de-allocated using <code>delete</code> in the class destructor. It will ensure that heap memory will be de-allocated when smart pointer object destructed.
+<hr />
+<script src="//gist.github.com/ve9u/9b33380c2de3b11c517985e0083ab1b8.js?file=smart-pointer-explained.cpp"></script></p>
+
+<p>The object pointer can be replaced by the static declaration of smart pointer and the dynamically allocated memory will pass as the smart pointer parameter. This way all the resources will be de-allocated by compiler itself when smart pointer object reach out of scope and no longer accessible.</p>
+
+<p><script src="//gist.github.com/ve9u/9b33380c2de3b11c517985e0083ab1b8.js?file=main-smart-pointer.cpp"></script>
+<script src="//gist.github.com/ve9u/9b33380c2de3b11c517985e0083ab1b8.js?file=output-smart-pointer"></script></p>
+
+<p>Smart pointer in c++ also use the same principle with operator like <code>*</code> and <code>-&gt;</code> overloaded. It also provides some more useful functionality, which will be discussed in the next part of the post.</p>
+
+              
+            </div>
+          </div>
+          <div id="post-footer" class="post-footer main-content-wrap">
+            
+              
+                
+                
+                  <div class="post-footer-tags">
+                    <span class="text-color-light text-small">TAGGED IN</span><br/>
+                    
+  <a class="tag tag--primary tag--small" href="https://ve9u.me/tags/c&#43;&#43;/">c&#43;&#43;</a>
+
+                  </div>
+                
+              
+            
+            
+  <div class="post-actions-wrap">
+      <nav >
+        <ul class="post-actions post-action-nav">
+          
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--disabled">
+              
+                  <i class="fa fa-angle-left"></i>
+                  <span class="hide-xs hide-sm text-small icon-ml">NEXT</span>
+                </a>
+            </li>
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--disabled">
+              
+                  <span class="hide-xs hide-sm text-small icon-mr">PREVIOUS</span>
+                  <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+          
+        </ul>
+      </nav>
+    <ul class="post-actions post-action-share" >
+      
+        <li class="post-action hide-lg hide-md hide-sm">
+          <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions">
+            <i class="fa fa-share-alt"></i>
+          </a>
+        </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=https://ve9u.me/2018/01/smart-pointer-explained-part-1/">
+              <i class="fa fa-twitter"></i>
+            </a>
+          </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=https://ve9u.me/2018/01/smart-pointer-explained-part-1/">
+              <i class="fa fa-google-plus"></i>
+            </a>
+          </li>
+        
+      
+      
+        <li class="post-action">
+          <a class="post-action-btn btn btn--default" href="#disqus_thread">
+            <i class="fa fa-comment-o"></i>
+          </a>
+        </li>
+      
+      <li class="post-action">
+        
+          <a class="post-action-btn btn btn--default" href="#">
+        
+          <i class="fa fa-list"></i>
+        </a>
+      </li>
+    </ul>
+  </div>
+
+
+            
+              
+                <div id="disqus_thread">
+  <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+              
+            
+          </div>
+        </article>
+        <footer id="footer" class="main-content-wrap">
+  <span class="copyrights">
+    &copy; 2018 <a href="https://github.com/ve9u">Venu Gangireddy</a>. All Rights Reserved
+  </span>
+</footer>
+
+      </div>
+      <div id="bottom-bar" class="post-bottom-bar" data-behavior="5">
+        
+  <div class="post-actions-wrap">
+      <nav >
+        <ul class="post-actions post-action-nav">
+          
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--disabled">
+              
+                  <i class="fa fa-angle-left"></i>
+                  <span class="hide-xs hide-sm text-small icon-ml">NEXT</span>
+                </a>
+            </li>
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--disabled">
+              
+                  <span class="hide-xs hide-sm text-small icon-mr">PREVIOUS</span>
+                  <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+          
+        </ul>
+      </nav>
+    <ul class="post-actions post-action-share" >
+      
+        <li class="post-action hide-lg hide-md hide-sm">
+          <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions">
+            <i class="fa fa-share-alt"></i>
+          </a>
+        </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=https://ve9u.me/2018/01/smart-pointer-explained-part-1/">
+              <i class="fa fa-twitter"></i>
+            </a>
+          </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=https://ve9u.me/2018/01/smart-pointer-explained-part-1/">
+              <i class="fa fa-google-plus"></i>
+            </a>
+          </li>
+        
+      
+      
+        <li class="post-action">
+          <a class="post-action-btn btn btn--default" href="#disqus_thread">
+            <i class="fa fa-comment-o"></i>
+          </a>
+        </li>
+      
+      <li class="post-action">
+        
+          <a class="post-action-btn btn btn--default" href="#">
+        
+          <i class="fa fa-list"></i>
+        </a>
+      </li>
+    </ul>
+  </div>
+
+
+      </div>
+      <div id="share-options-bar" class="share-options-bar" data-behavior="5">
+  <i id="btn-close-shareoptions" class="fa fa-close"></i>
+  <ul class="share-options">
+    
+      <li class="share-option">
+        <a class="share-option-btn" target="new" href="https://twitter.com/intent/tweet?text=https%3A%2F%2Fve9u.me%2F2018%2F01%2Fsmart-pointer-explained-part-1%2F">
+          <i class="fa fa-twitter"></i><span>Share on Twitter</span>
+        </a>
+      </li>
+    
+      <li class="share-option">
+        <a class="share-option-btn" target="new" href="https://plus.google.com/share?url=https%3A%2F%2Fve9u.me%2F2018%2F01%2Fsmart-pointer-explained-part-1%2F">
+          <i class="fa fa-google-plus"></i><span>Share on Google&#43;</span>
+        </a>
+      </li>
+    
+  </ul>
+</div>
+<div id="share-options-mask" class="share-options-mask"></div>
+    </div>
+    
+    <div id="about">
+  <div id="about-card">
+    <div id="about-btn-close">
+      <i class="fa fa-remove"></i>
+    </div>
+    
+      <img id="about-card-picture" src="//www.gravatar.com/avatar/aee151a511379d3584dfba0bdd02cd09?s=110" alt="Author&#39;s picture" />
+    
+    <h4 id="about-card-name">Venu Gangireddy</h4>
+    
+      <div id="about-card-bio">Database Developer, Functional Programmer, System Enthusiast</div>
+    
+    
+      <div id="about-card-job">
+        <i class="fa fa-briefcase"></i>
+        <br/>
+        Associate Developer
+      </div>
+    
+    
+      <div id="about-card-location">
+        <i class="fa fa-map-marker"></i>
+        <br/>
+        India
+      </div>
+    
+  </div>
+</div>
+
+    <div id="algolia-search-modal" class="modal-container">
+  <div class="modal">
+    <div class="modal-header">
+      <span class="close-button"><i class="fa fa-close"></i></span>
+      <a href="https://algolia.com" target="_blank" rel="noopener" class="searchby-algolia text-color-light link-unstyled">
+        <span class="searchby-algolia-text text-color-light text-small">by</span>
+        <img class="searchby-algolia-logo" src="https://www.algolia.com/static_assets/images/press/downloads/algolia-light.svg">
+      </a>
+      <i class="search-icon fa fa-search"></i>
+      <form id="algolia-search-form">
+        <input type="text" id="algolia-search-input" name="search"
+          class="form-control input--large search-input" placeholder="Search" />
+      </form>
+    </div>
+    <div class="modal-body">
+      <div class="no-result text-color-light text-center">no post found</div>
+      <div class="results">
+        
+        
+          <div class="media">
+            
+            <div class="media-body">
+              <a class="link-unstyled" href="https://ve9u.me/2018/01/smart-pointer-explained-part-1/">
+                <h3 class="media-heading">Smart Pointer Explained: Part 1</h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  Jan 1, 2018
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather">Smart pointer is simple wrapper around regular pointer and allows better memory management compares to traditional pointers. Memory management is not simple, and not harder either. Human errors are possible when dealing with huge code base which has lot of exception handlers that will deviate regular code execution. It is difficult to track the ownership and existence of the pointer in such situations. Smart Pointer will ensure that memory released automatically when it is not necessary.</div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
+        
+      </div>
+    </div>
+    <div class="modal-footer">
+      <p class="results-count text-medium"
+         data-message-zero="no post found"
+         data-message-one="1 post found"
+         data-message-other="{n} posts found">
+         1 posts found
+      </p>
+    </div>
+  </div>
+</div>
+    
+  
+    
+    <div id="cover" style="background-image:url('https://res.cloudinary.com/dl4ccqgpz/image/upload/v1516429621/fishtail.jpg');"></div>
+  
+
+
+    
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.4/jquery.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js" integrity="sha256-/BfiIkHlHoVihZdc6TFuj7MmJ0TWcWsMXkeDFwhi0zw=" crossorigin="anonymous"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.7/js/jquery.fancybox.min.js" integrity="sha256-GEAnjcTqVP+vBp3SSc8bEDQqvWAZMiHyUSIorrWwH50=" crossorigin="anonymous"></script>
+
+
+<script src="https://ve9u.me/js/script-qi9wbxp2ya2j6p7wx1i6tgavftewndznf4v0hy2gvivk1rxgc3lm7njqb6bz.min.js"></script>
+
+
+
+<script>
+$(document).ready(function() {
+  hljs.configure({ classPrefix: '', useBR: false });
+  $('pre.code-highlight > code, pre > code').each(function(i, block) {
+    if (!$(this).hasClass('codeblock')) {
+      $(this).addClass('codeblock');
+    }
+    hljs.highlightBlock(block);
+  });
+});
+</script>
+
+
+  
+    
+      <script>
+        var disqus_config = function () {
+          this.page.url = 'https:\/\/ve9u.me\/2018\/01\/smart-pointer-explained-part-1\/';
+          
+            this.page.identifier = '\/2018\/01\/smart-pointer-explained-part-1\/'
+          
+        };
+        (function() {
+          
+          
+          if (window.location.hostname == "localhost") {
+            return;
+          }
+          var d = document, s = d.createElement('script');
+          var disqus_shortname = 'hugo-tranquilpeak-theme';
+          s.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+
+          s.setAttribute('data-timestamp', +new Date());
+          (d.head || d.body).appendChild(s);
+        })();
+      </script>
+    
+  
+
+
+
+    
+  </body>
+</html>
+
