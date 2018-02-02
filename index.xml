@@ -6,9 +6,19 @@
     <description>Recent content on __sync_with_ve9u</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
+    <lastBuildDate>Sat, 13 Jan 2018 18:34:36 +0530</lastBuildDate>
     
 	<atom:link href="https://ve9u.me/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Smart Pointer Explained: Part 1</title>
+      <link>https://ve9u.me/2018/01/smart-pointer-explained-part-1/</link>
+      <pubDate>Sat, 13 Jan 2018 18:34:36 +0530</pubDate>
+      
+      <guid>https://ve9u.me/2018/01/smart-pointer-explained-part-1/</guid>
+      <description>Smart pointer is simple wrapper around regular pointer and allows better memory management compares to traditional pointers. Memory management is not simple, and not harder either. Human errors are possible when dealing with huge code base which has lot of exception handlers that will deviate regular code execution. It is difficult to track the ownership and existence of the pointer in such situations. Smart Pointer will ensure that memory released automatically when it is not necessary.</description>
+    </item>
     
   </channel>
 </rss>

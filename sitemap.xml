@@ -3,22 +3,48 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
+    <loc>https://ve9u.me/2018/01/smart-pointer-explained-part-1/</loc>
+    <lastmod>2018-01-13T18:34:36+05:30</lastmod>
+  </url>
+  
+  <url>
     <loc>https://ve9u.me/archives/</loc>
     <priority>0</priority>
   </url>
   
   <url>
+    <loc>https://ve9u.me/tags/c&#43;&#43;/</loc>
+    <lastmod>2018-01-13T18:34:36+05:30</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://ve9u.me/categories/c&#43;&#43;/</loc>
+    <lastmod>2018-01-13T18:34:36+05:30</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
     <loc>https://ve9u.me/categories/</loc>
+    <lastmod>2018-01-13T18:34:36+05:30</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://ve9u.me/post/</loc>
+    <lastmod>2018-01-13T18:34:36+05:30</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
     <loc>https://ve9u.me/tags/</loc>
+    <lastmod>2018-01-13T18:34:36+05:30</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
     <loc>https://ve9u.me/</loc>
+    <lastmod>2018-01-13T18:34:36+05:30</lastmod>
     <priority>0</priority>
   </url>
   
